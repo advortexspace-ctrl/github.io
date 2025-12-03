@@ -2,60 +2,74 @@
 <html lang="en" class="dark-theme">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdVortex | Digital Marketing Agency</title>
-    <meta name="description" content="Professional digital marketing services: Social media ads, Google Ads, SEO, and e-commerce promotion">
+    <meta name="description" content="Professional digital marketing services">
     
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Add cache busting version parameter -->
+    <link rel="stylesheet" href="style.css?v=1.0.1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌀</text></svg>">
     
+    <!-- Inline critical CSS -->
     <style>
-        /* Inline CSS for critical animations */
-        .vortex-loader {
-            width: 60px;
-            height: 60px;
-            border: 3px solid transparent;
-            border-top-color: #6366f1;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #0f172a; 
+            color: #f8fafc; 
+            overflow-x: hidden; 
         }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .loading-screen { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #0f172a; display: flex; align-items: center; 
+            justify-content: center; z-index: 9999; 
         }
-        
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0f172a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
+        .loading-screen.hidden { opacity: 0; visibility: hidden; }
+        .vortex-loader { 
+            width: 60px; height: 60px; border: 3px solid transparent; 
+            border-top-color: #6366f1; border-radius: 50%; 
+            animation: spin 1s linear infinite; 
         }
-        
-        .loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+        .container { 
+            max-width: 1200px; margin: 0 auto; padding: 0 20px; 
+        }
+        .header { 
+            position: fixed; top: 0; left: 0; width: 100%; 
+            background: rgba(15, 23, 42, 0.95); padding: 15px 0; 
+            z-index: 1000; 
+        }
+        .navbar { 
+            display: flex; justify-content: space-between; 
+            align-items: center; 
+        }
+        .logo { 
+            display: flex; align-items: center; gap: 10px; 
+            color: white; text-decoration: none; font-size: 1.5rem; 
+            font-weight: bold; 
+        }
+        .logo-accent { color: #6366f1; }
+        .mobile-menu-btn { 
+            display: none; background: none; border: none; 
+            cursor: pointer; flex-direction: column; gap: 4px; 
+        }
+        .mobile-menu-btn span { 
+            width: 25px; height: 2px; background: white; 
+        }
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: flex; }
         }
     </style>
 </head>
 <body>
-    <!-- Loading -->
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-content">
-            <div class="vortex-loader"></div>
-        </div>
+        <div class="vortex-loader"></div>
     </div>
 
     <!-- Animated Background -->
@@ -64,26 +78,21 @@
         <div class="gradient-circle-2"></div>
         <div class="grid-lines"></div>
         <div class="pulse-dots">
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div>
         </div>
     </div>
 
-    <!-- Header -->
     <header class="header" id="header">
         <div class="container">
             <nav class="navbar">
                 <a href="#home" class="logo">
-                    <span class="logo-icon">🌀</span>
-                    <span class="logo-text">Ad<span class="logo-accent">Vortex</span></span>
+                    <span>🌀</span>
+                    <span>Ad<span class="logo-accent">Vortex</span></span>
                 </a>
                 
-                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span><span></span><span></span>
                 </button>
                 
                 <div class="nav-menu" id="navMenu">
@@ -91,9 +100,6 @@
                     <a href="#services" class="nav-link">Services</a>
                     <a href="#technologies" class="nav-link">Technologies</a>
                     <a href="#contact" class="nav-link">Contact</a>
-                    <a href="https://t.me/AdVortex_space" target="_blank" class="nav-cta-mobile">
-                        <i class="fab fa-telegram"></i> Contact
-                    </a>
                 </div>
                 
                 <a href="https://t.me/AdVortex_space" target="_blank" class="nav-cta">
@@ -106,7 +112,7 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
-            <div class="hero-content fade-in-up">
+            <div class="hero-content">
                 <div class="hero-badge">
                     <span class="badge pulse">
                         <i class="fas fa-bolt"></i> Professional Marketing
@@ -114,7 +120,7 @@
                 </div>
                 
                 <h1 class="hero-title">
-                    Drive <span class="text-gradient-animate">Growth</span> with
+                    Drive <span class="text-gradient">Growth</span> with
                     <span class="hero-subtitle">Digital Advertising</span>
                 </h1>
                 
@@ -124,50 +130,27 @@
                 </p>
                 
                 <div class="hero-stats">
-                    <div class="stat fade-in-left">
+                    <div class="stat">
                         <span class="stat-number" data-count="250">0</span>
                         <span class="stat-label">Projects</span>
                     </div>
-                    <div class="stat fade-in-up">
+                    <div class="stat">
                         <span class="stat-number" data-count="98">0</span>
                         <span class="stat-label">% Satisfaction</span>
                     </div>
-                    <div class="stat fade-in-right">
+                    <div class="stat">
                         <span class="stat-number" data-count="45">0</span>
                         <span class="stat-label">Countries</span>
                     </div>
                 </div>
                 
                 <div class="hero-actions">
-                    <a href="#services" class="btn btn-primary btn-hover-glow">
+                    <a href="#services" class="btn btn-primary">
                         <i class="fas fa-bullhorn"></i> Our Services
                     </a>
                     <a href="#contact" class="btn btn-outline">
                         <i class="fas fa-calendar"></i> Free Consultation
                     </a>
-                </div>
-            </div>
-            
-            <div class="hero-visual">
-                <div class="floating-cards">
-                    <div class="stat-card floating-card">
-                        <div class="stat-card-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="stat-card-content">
-                            <h4>ROI Focused</h4>
-                            <p>Average 3.8x return on ad spend</p>
-                        </div>
-                    </div>
-                    <div class="stat-card floating-card">
-                        <div class="stat-card-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <div class="stat-card-content">
-                            <h4>Fast Setup</h4>
-                            <p>Campaigns live in 24-48 hours</p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -177,129 +160,93 @@
     <section class="services" id="services">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Our <span class="text-gradient-animate">Services</span></h2>
+                <h2 class="section-title">Our <span class="text-gradient">Services</span></h2>
                 <p class="section-subtitle">Comprehensive digital marketing solutions</p>
             </div>
             
             <div class="services-grid">
-                <!-- Service 1 -->
-                <div class="service-card fade-in-up">
-                    <div class="service-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-users"></i></div>
                     <h3>Social Media Advertising</h3>
                     <p>Promotion on Instagram, Facebook, VK, and other social networks</p>
                     <div class="service-features">
                         <span><i class="fas fa-check"></i> Targeted Ads</span>
                         <span><i class="fas fa-check"></i> Content Strategy</span>
-                        <span><i class="fas fa-check"></i> Analytics</span>
                     </div>
                     <div class="service-price">
                         <span class="price">from $300/month</span>
                     </div>
-                    <a href="#contact" class="service-link">
-                        Get Started <i class="fas fa-arrow-right"></i>
-                    </a>
+                    <a href="#contact" class="service-link">Get Started <i class="fas fa-arrow-right"></i></a>
                 </div>
                 
-                <!-- Service 2 -->
-                <div class="service-card fade-in-up">
-                    <div class="service-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-search"></i></div>
                     <h3>Contextual Advertising</h3>
                     <p>Google Ads and Yandex Direct campaign management</p>
                     <div class="service-features">
                         <span><i class="fas fa-check"></i> Keyword Research</span>
                         <span><i class="fas fa-check"></i> A/B Testing</span>
-                        <span><i class="fas fa-check"></i> Conversion Tracking</span>
                     </div>
                     <div class="service-price">
                         <span class="price">from $500/month</span>
                     </div>
-                    <a href="#contact" class="service-link">
-                        Get Started <i class="fas fa-arrow-right"></i>
-                    </a>
+                    <a href="#contact" class="service-link">Get Started <i class="fas fa-arrow-right"></i></a>
                 </div>
                 
-                <!-- Service 3 -->
-                <div class="service-card fade-in-up">
-                    <div class="service-icon">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-shopping-cart"></i></div>
                     <h3>E-commerce Promotion</h3>
                     <p>Complete online store promotion and sales increase</p>
                     <div class="service-features">
                         <span><i class="fas fa-check"></i> Product Optimization</span>
                         <span><i class="fas fa-check"></i> Shopping Ads</span>
-                        <span><i class="fas fa-check"></i> Sales Funnel</span>
                     </div>
                     <div class="service-price">
                         <span class="price">from $750/month</span>
                     </div>
-                    <a href="#contact" class="service-link">
-                        Get Started <i class="fas fa-arrow-right"></i>
-                    </a>
+                    <a href="#contact" class="service-link">Get Started <i class="fas fa-arrow-right"></i></a>
                 </div>
                 
-                <!-- Service 4 -->
-                <div class="service-card fade-in-up">
-                    <div class="service-icon">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-chart-bar"></i></div>
                     <h3>SEO Optimization</h3>
                     <p>Increase website visibility in search engines</p>
                     <div class="service-features">
                         <span><i class="fas fa-check"></i> Technical SEO</span>
                         <span><i class="fas fa-check"></i> Link Building</span>
-                        <span><i class="fas fa-check"></i> Local SEO</span>
                     </div>
                     <div class="service-price">
                         <span class="price">from $600/month</span>
                     </div>
-                    <a href="#contact" class="service-link">
-                        Get Started <i class="fas fa-arrow-right"></i>
-                    </a>
+                    <a href="#contact" class="service-link">Get Started <i class="fas fa-arrow-right"></i></a>
                 </div>
                 
-                <!-- Service 5 -->
-                <div class="service-card fade-in-up">
-                    <div class="service-icon">
-                        <i class="fas fa-video"></i>
-                    </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-video"></i></div>
                     <h3>Video Advertising</h3>
                     <p>YouTube, TikTok, and video platform advertising</p>
                     <div class="service-features">
                         <span><i class="fas fa-check"></i> Video Production</span>
                         <span><i class="fas fa-check"></i> Platform Ads</span>
-                        <span><i class="fas fa-check"></i> Analytics</span>
                     </div>
                     <div class="service-price">
                         <span class="price">from $400/month</span>
                     </div>
-                    <a href="#contact" class="service-link">
-                        Get Started <i class="fas fa-arrow-right"></i>
-                    </a>
+                    <a href="#contact" class="service-link">Get Started <i class="fas fa-arrow-right"></i></a>
                 </div>
                 
-                <!-- Service 6 -->
-                <div class="service-card fade-in-up">
-                    <div class="service-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-envelope"></i></div>
                     <h3>Email Marketing</h3>
                     <p>Newsletter campaigns and automation</p>
                     <div class="service-features">
                         <span><i class="fas fa-check"></i> Automation</span>
                         <span><i class="fas fa-check"></i> Segmentation</span>
-                        <span><i class="fas fa-check"></i> A/B Testing</span>
                     </div>
                     <div class="service-price">
                         <span class="price">from $350/month</span>
                     </div>
-                    <a href="#contact" class="service-link">
-                        Get Started <i class="fas fa-arrow-right"></i>
-                    </a>
+                    <a href="#contact" class="service-link">Get Started <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -309,26 +256,22 @@
     <section class="technologies" id="technologies">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Our <span class="text-gradient-animate">Tech Stack</span></h2>
+                <h2 class="section-title">Our <span class="text-gradient">Tech Stack</span></h2>
                 <p class="section-subtitle">Advanced tools we use to deliver results</p>
             </div>
             
             <div class="tech-grid">
-                <div class="tech-category fade-in-left">
+                <div class="tech-category">
                     <h3><i class="fas fa-chart-line"></i> Analytics</h3>
                     <div class="tech-item">
-                        <div class="tech-icon">
-                            <i class="fab fa-google"></i>
-                        </div>
+                        <div class="tech-icon"><i class="fab fa-google"></i></div>
                         <div class="tech-content">
                             <h4>Google Analytics</h4>
                             <p>Traffic analysis and user behavior tracking</p>
                         </div>
                     </div>
                     <div class="tech-item">
-                        <div class="tech-icon">
-                            <i class="fas fa-tags"></i>
-                        </div>
+                        <div class="tech-icon"><i class="fas fa-tags"></i></div>
                         <div class="tech-content">
                             <h4>Google Tag Manager</h4>
                             <p>Centralized tag management system</p>
@@ -336,21 +279,17 @@
                     </div>
                 </div>
                 
-                <div class="tech-category fade-in-up">
+                <div class="tech-category">
                     <h3><i class="fas fa-bullhorn"></i> Advertising</h3>
                     <div class="tech-item">
-                        <div class="tech-icon">
-                            <i class="fab fa-google"></i>
-                        </div>
+                        <div class="tech-icon"><i class="fab fa-google"></i></div>
                         <div class="tech-content">
                             <h4>Google Ads</h4>
                             <p>PPC campaigns on search and display</p>
                         </div>
                     </div>
                     <div class="tech-item">
-                        <div class="tech-icon">
-                            <i class="fab fa-facebook"></i>
-                        </div>
+                        <div class="tech-icon"><i class="fab fa-facebook"></i></div>
                         <div class="tech-content">
                             <h4>Facebook Ads</h4>
                             <p>Social media advertising platform</p>
@@ -358,21 +297,17 @@
                     </div>
                 </div>
                 
-                <div class="tech-category fade-in-up">
+                <div class="tech-category">
                     <h3><i class="fas fa-search"></i> SEO Tools</h3>
                     <div class="tech-item">
-                        <div class="tech-icon">
-                            <i class="fas fa-link"></i>
-                        </div>
+                        <div class="tech-icon"><i class="fas fa-link"></i></div>
                         <div class="tech-content">
                             <h4>Ahrefs</h4>
                             <p>Backlink analysis and keyword research</p>
                         </div>
                     </div>
                     <div class="tech-item">
-                        <div class="tech-icon">
-                            <i class="fas fa-tools"></i>
-                        </div>
+                        <div class="tech-icon"><i class="fas fa-tools"></i></div>
                         <div class="tech-content">
                             <h4>SEMrush</h4>
                             <p>Complete SEO and marketing toolkit</p>
@@ -380,21 +315,17 @@
                     </div>
                 </div>
                 
-                <div class="tech-category fade-in-right">
+                <div class="tech-category">
                     <h3><i class="fas fa-robot"></i> Automation</h3>
                     <div class="tech-item">
-                        <div class="tech-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
+                        <div class="tech-icon"><i class="fas fa-bolt"></i></div>
                         <div class="tech-content">
                             <h4>Zapier</h4>
                             <p>Workflow automation between apps</p>
                         </div>
                     </div>
                     <div class="tech-item">
-                        <div class="tech-icon">
-                            <i class="fas fa-paper-plane"></i>
-                        </div>
+                        <div class="tech-icon"><i class="fas fa-paper-plane"></i></div>
                         <div class="tech-content">
                             <h4>Mailchimp</h4>
                             <p>Email marketing and automation</p>
@@ -409,16 +340,13 @@
     <section class="contact" id="contact">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Get In <span class="text-gradient-animate">Touch</span></h2>
+                <h2 class="section-title">Get In <span class="text-gradient">Touch</span></h2>
                 <p class="section-subtitle">Choose your preferred contact method</p>
             </div>
             
             <div class="contact-grid">
-                <!-- Telegram -->
-                <div class="contact-card fade-in-left">
-                    <div class="contact-icon telegram">
-                        <i class="fab fa-telegram"></i>
-                    </div>
+                <div class="contact-card">
+                    <div class="contact-icon telegram"><i class="fab fa-telegram"></i></div>
                     <h3>Telegram</h3>
                     <p>Fastest response for quick questions and consultations</p>
                     <div class="contact-info">
@@ -430,11 +358,8 @@
                     </a>
                 </div>
                 
-                <!-- Email -->
-                <div class="contact-card fade-in-up">
-                    <div class="contact-icon email">
-                        <i class="fas fa-envelope"></i>
-                    </div>
+                <div class="contact-card">
+                    <div class="contact-icon email"><i class="fas fa-envelope"></i></div>
                     <h3>Email</h3>
                     <p>For detailed proposals and project specifications</p>
                     <div class="contact-info">
@@ -446,11 +371,8 @@
                     </a>
                 </div>
                 
-                <!-- Phone -->
-                <div class="contact-card fade-in-right">
-                    <div class="contact-icon phone">
-                        <i class="fas fa-phone"></i>
-                    </div>
+                <div class="contact-card">
+                    <div class="contact-icon phone"><i class="fas fa-phone"></i></div>
                     <h3>Phone/WhatsApp</h3>
                     <p>For urgent matters and in-depth discussions</p>
                     <div class="contact-info">
@@ -471,12 +393,10 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <div class="logo">
-                        <span class="logo-icon">🌀</span>
-                        <span class="logo-text">Ad<span class="logo-accent">Vortex</span></span>
+                        <span>🌀</span>
+                        <span>Ad<span class="logo-accent">Vortex</span></span>
                     </div>
-                    <p class="footer-description">
-                        Professional digital marketing and advertising agency
-                    </p>
+                    <p>Professional digital marketing and advertising agency</p>
                 </div>
                 
                 <div class="footer-links">
@@ -518,278 +438,85 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <!-- Inline JavaScript for guaranteed functionality -->
+    <!-- Inline JavaScript -->
     <script>
-        (function() {
-            'use strict';
+    // Simple JavaScript that always works
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Site loaded');
+        
+        // Loading screen
+        setTimeout(function() {
+            document.getElementById('loadingScreen').classList.add('hidden');
+        }, 1000);
+        
+        // Mobile menu
+        const menuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        if (menuBtn && navMenu) {
+            menuBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+        }
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Back to top
+        const backBtn = document.getElementById('backToTop');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backBtn.classList.add('visible');
+            } else {
+                backBtn.classList.remove('visible');
+            }
+        });
+        
+        backBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Counters
+        const counters = document.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-count'));
+            let current = 0;
+            const increment = target / 50;
             
-            // DOM Ready
-            document.addEventListener('DOMContentLoaded', function() {
-                console.log('AdVortex JS loaded');
-                
-                // ===== LOADING SCREEN =====
-                const loadingScreen = document.getElementById('loadingScreen');
-                if (loadingScreen) {
-                    // Hide loading screen
-                    setTimeout(function() {
-                        loadingScreen.classList.add('hidden');
-                        
-                        // Remove from DOM after animation
-                        setTimeout(function() {
-                            if (loadingScreen.parentNode) {
-                                loadingScreen.style.display = 'none';
-                            }
-                        }, 500);
-                    }, 1000);
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    counter.textContent = Math.floor(current);
+                    setTimeout(updateCounter, 30);
+                } else {
+                    counter.textContent = target;
                 }
-                
-                // ===== MOBILE MENU =====
-                const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-                const navMenu = document.getElementById('navMenu');
-                
-                if (mobileMenuBtn && navMenu) {
-                    mobileMenuBtn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        this.classList.toggle('active');
-                        navMenu.classList.toggle('active');
-                        document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
-                    });
-                    
-                    // Close menu when clicking outside
-                    document.addEventListener('click', function(e) {
-                        if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                            mobileMenuBtn.classList.remove('active');
-                            navMenu.classList.remove('active');
-                            document.body.style.overflow = '';
-                        }
-                    });
-                    
-                    // Close menu when clicking a link
-                    navMenu.querySelectorAll('a').forEach(function(link) {
-                        link.addEventListener('click', function() {
-                            mobileMenuBtn.classList.remove('active');
-                            navMenu.classList.remove('active');
-                            document.body.style.overflow = '';
-                        });
-                    });
-                    
-                    // Close on escape key
-                    document.addEventListener('keydown', function(e) {
-                        if (e.key === 'Escape') {
-                            mobileMenuBtn.classList.remove('active');
-                            navMenu.classList.remove('active');
-                            document.body.style.overflow = '';
-                        }
-                    });
-                    
-                    // Close on window resize
-                    window.addEventListener('resize', function() {
-                        if (window.innerWidth > 768) {
-                            mobileMenuBtn.classList.remove('active');
-                            navMenu.classList.remove('active');
-                            document.body.style.overflow = '';
-                        }
-                    });
-                }
-                
-                // ===== SMOOTH SCROLL =====
-                document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-                    anchor.addEventListener('click', function(e) {
-                        const targetId = this.getAttribute('href');
-                        
-                        if (targetId === '#' || targetId === '#!') {
-                            e.preventDefault();
-                            return;
-                        }
-                        
-                        if (targetId.startsWith('#')) {
-                            e.preventDefault();
-                            const targetElement = document.querySelector(targetId);
-                            
-                            if (targetElement) {
-                                // Update active nav link
-                                document.querySelectorAll('.nav-link').forEach(function(link) {
-                                    link.classList.remove('active');
-                                });
-                                this.classList.add('active');
-                                
-                                // Scroll to element
-                                const headerHeight = document.querySelector('.header') ? document.querySelector('.header').offsetHeight : 80;
-                                const targetPosition = targetElement.offsetTop - headerHeight;
-                                
-                                window.scrollTo({
-                                    top: targetPosition,
-                                    behavior: 'smooth'
-                                });
-                            }
-                        }
-                    });
-                });
-                
-                // ===== ACTIVE NAV ON SCROLL =====
-                const sections = document.querySelectorAll('section[id]');
-                const navLinks = document.querySelectorAll('.nav-link');
-                
-                function updateActiveNav() {
-                    const scrollPosition = window.scrollY + 100;
-                    
-                    sections.forEach(function(section) {
-                        const sectionTop = section.offsetTop;
-                        const sectionHeight = section.clientHeight;
-                        const sectionId = section.getAttribute('id');
-                        
-                        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-                            navLinks.forEach(function(link) {
-                                link.classList.remove('active');
-                                if (link.getAttribute('href') === '#' + sectionId) {
-                                    link.classList.add('active');
-                                }
-                            });
-                        }
-                    });
-                }
-                
-                window.addEventListener('scroll', updateActiveNav);
-                updateActiveNav(); // Initial check
-                
-                // ===== ANIMATE COUNTERS =====
-                const counters = document.querySelectorAll('.stat-number');
-                if (counters.length > 0) {
-                    // Create Intersection Observer for counters
-                    const counterObserver = new IntersectionObserver(function(entries) {
-                        entries.forEach(function(entry) {
-                            if (entry.isIntersecting) {
-                                const counter = entry.target;
-                                const target = parseInt(counter.getAttribute('data-count'));
-                                const duration = 1500; // 1.5 seconds
-                                const step = target / (duration / 16); // 60fps
-                                let current = 0;
-                                
-                                const timer = setInterval(function() {
-                                    current += step;
-                                    if (current >= target) {
-                                        counter.textContent = target;
-                                        clearInterval(timer);
-                                    } else {
-                                        counter.textContent = Math.floor(current);
-                                    }
-                                }, 16);
-                                
-                                counterObserver.unobserve(counter);
-                            }
-                        });
-                    }, { threshold: 0.5 });
-                    
-                    counters.forEach(function(counter) {
-                        counterObserver.observe(counter);
-                    });
-                }
-                
-                // ===== BACK TO TOP BUTTON =====
-                const backToTopBtn = document.getElementById('backToTop');
-                if (backToTopBtn) {
-                    // Show/hide button on scroll
-                    function toggleBackToTop() {
-                        if (window.scrollY > 300) {
-                            backToTopBtn.classList.add('visible');
-                        } else {
-                            backToTopBtn.classList.remove('visible');
-                        }
+            };
+            
+            // Start when in view
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        updateCounter();
+                        observer.unobserve(entry.target);
                     }
-                    
-                    // Scroll to top when clicked
-                    backToTopBtn.addEventListener('click', function() {
-                        window.scrollTo({
-                            top: 0,
-                            behavior: 'smooth'
-                        });
-                    });
-                    
-                    window.addEventListener('scroll', toggleBackToTop);
-                    toggleBackToTop(); // Initial check
-                }
-                
-                // ===== ENTRANCE ANIMATIONS =====
-                const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right');
-                if (animatedElements.length > 0) {
-                    const animationObserver = new IntersectionObserver(function(entries) {
-                        entries.forEach(function(entry) {
-                            if (entry.isIntersecting) {
-                                // Add a small delay for staggered animation
-                                const delay = Array.from(animatedElements).indexOf(entry.target) * 100;
-                                setTimeout(function() {
-                                    entry.target.classList.add('animated');
-                                }, delay);
-                                
-                                animationObserver.unobserve(entry.target);
-                            }
-                        });
-                    }, {
-                        threshold: 0.1,
-                        rootMargin: '0px 0px -50px 0px'
-                    });
-                    
-                    animatedElements.forEach(function(element) {
-                        animationObserver.observe(element);
-                    });
-                }
-                
-                // ===== SERVICE CARDS HOVER EFFECT =====
-                const serviceCards = document.querySelectorAll('.service-card');
-                serviceCards.forEach(function(card) {
-                    card.addEventListener('mouseenter', function() {
-                        if (window.innerWidth > 768) {
-                            this.style.transform = 'translateY(-8px)';
-                        }
-                    });
-                    
-                    card.addEventListener('mouseleave', function() {
-                        if (window.innerWidth > 768) {
-                            this.style.transform = 'translateY(0)';
-                        }
-                    });
                 });
-                
-                // ===== CONTACT BUTTONS =====
-                const contactButtons = document.querySelectorAll('a[href^="tel:"], a[href^="mailto:"], a[href*="t.me"]');
-                contactButtons.forEach(function(button) {
-                    button.addEventListener('click', function() {
-                        // You can add analytics tracking here
-                        console.log('Contact button clicked:', this.href);
-                    });
-                });
-                
-                // ===== INITIALIZE ON LOAD =====
-                window.addEventListener('load', function() {
-                    // Add loaded class for CSS transitions
-                    document.body.classList.add('loaded');
-                    
-                    // Force a reflow to trigger animations
-                    setTimeout(function() {
-                        document.body.classList.add('page-loaded');
-                    }, 100);
-                });
-                
-                // Fallback for older browsers
-                if (!('IntersectionObserver' in window)) {
-                    // Show all counters immediately
-                    counters.forEach(function(counter) {
-                        const target = parseInt(counter.getAttribute('data-count'));
-                        counter.textContent = target;
-                    });
-                    
-                    // Show all animated elements
-                    animatedElements.forEach(function(element) {
-                        element.classList.add('animated');
-                    });
-                }
-            });
+            }, { threshold: 0.5 });
             
-            // Add error handling
-            window.addEventListener('error', function(e) {
-                console.error('JavaScript Error:', e.error);
-            });
-        })();
+            observer.observe(counter);
+        });
+    });
     </script>
 </body>
 </html>
