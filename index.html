@@ -1,37 +1,111 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="dark-theme">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VortexTech | Футуристичные решения</title>
-    <link rel="stylesheet" href="style.css">
+    <title>VortexSpace | Футуристичные цифровые решения</title>
+    <meta name="description" content="Создаем инновационные продукты с использованием AI, блокчейн и VR технологий">
+    <meta name="keywords" content="AI, блокчейн, VR, разработка, технологии, будущее">
+    
+    <!-- Styles & Fonts -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <link rel="manifest" href="assets/favicon/site.webmanifest">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="VortexSpace | Футуристичные цифровые решения">
+    <meta property="og:description" content="Создаем инновационные продукты с использованием AI, блокчейн и VR технологий">
+    <meta property="og:image" content="https://ваш-логин.github.io/assets/og-image.jpg">
+    <meta property="og:url" content="https://ваш-логин.github.io">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0a0a0f">
+    
+    <!-- Preload -->
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" as="style">
 </head>
 <body>
-    <!-- Animated Background -->
-    <div class="bg-animation">
-        <div class="gradient-circle"></div>
-        <div class="gradient-circle-2"></div>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="vortex-loader">
+                <div class="vortex-ring"></div>
+                <div class="vortex-ring"></div>
+                <div class="vortex-ring"></div>
+            </div>
+            <p class="loading-text">Загрузка VortexSpace...</p>
+        </div>
     </div>
 
-    <!-- Header / Navigation -->
-    <header class="header">
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <canvas id="particlesCanvas"></canvas>
+        <div class="grid-lines"></div>
+        <div class="pulse-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+        <i class="fas fa-sun"></i>
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Header -->
+    <header class="header" id="header">
         <div class="container">
             <nav class="navbar">
-                <div class="logo">
+                <a href="#home" class="logo">
                     <span class="logo-icon">🌀</span>
-                    <span class="logo-text">Vortex<span class="logo-accent">Tech</span></span>
+                    <span class="logo-text">Vortex<span class="logo-accent">Space</span></span>
+                </a>
+                
+                <div class="nav-menu" id="navMenu">
+                    <a href="#home" class="nav-link active" data-nav="home">
+                        <i class="fas fa-home"></i> Главная
+                    </a>
+                    <a href="#services" class="nav-link" data-nav="services">
+                        <i class="fas fa-cogs"></i> Услуги
+                    </a>
+                    <a href="#projects" class="nav-link" data-nav="projects">
+                        <i class="fas fa-rocket"></i> Проекты
+                    </a>
+                    <a href="#technologies" class="nav-link" data-nav="technologies">
+                        <i class="fas fa-microchip"></i> Технологии
+                    </a>
+                    <a href="#about" class="nav-link" data-nav="about">
+                        <i class="fas fa-users"></i> О нас
+                    </a>
+                    <a href="#contact" class="nav-link" data-nav="contact">
+                        <i class="fas fa-envelope"></i> Контакты
+                    </a>
                 </div>
-                <div class="nav-links">
-                    <a href="#home" class="nav-link active">Главная</a>
-                    <a href="#services" class="nav-link">Услуги</a>
-                    <a href="#technologies" class="nav-link">Технологии</a>
-                    <a href="#about" class="nav-link">О нас</a>
-                    <a href="#contact" class="nav-link">Контакты</a>
+                
+                <div class="nav-actions">
+                    <button class="nav-cta" id="startProjectBtn">
+                        <i class="fas fa-play"></i> Начать проект
+                    </button>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Меню">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
                 </div>
-                <button class="cta-button-nav">Начать проект</button>
             </nav>
         </div>
     </header>
@@ -40,55 +114,114 @@
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="badge-text">🚀 Будущее уже здесь</span>
+                <div class="hero-badges">
+                    <span class="badge pulse">
+                        <i class="fas fa-bolt"></i> НОВАЯ ЭРА ТЕХНОЛОГИЙ
+                    </span>
+                    <span class="badge">
+                        <i class="fas fa-shield-alt"></i> БЕЗОПАСНОСТЬ 100%
+                    </span>
                 </div>
+                
                 <h1 class="hero-title">
-                    <span class="hero-gradient">Продвинутые</span> цифровые решения
-                    <span class="hero-subtitle">для следующего поколения бизнеса</span>
+                    <span class="text-gradient">Создаем будущее</span>
+                    <span class="typing-text" id="typingText"></span>
                 </h1>
+                
                 <p class="hero-description">
-                    Мы создаем инновационные продукты, используя передовые технологии 
-                    искусственного интеллекта, блокчейн и immersive-опыт.
+                    Мы трансформируем бизнес с помощью <span class="highlight">искусственного интеллекта</span>, 
+                    <span class="highlight">блокчейн технологий</span> и <span class="highlight">иммерсивного опыта</span>. 
+                    От концепции до реализации — мы строим цифровое будущее сегодня.
                 </p>
-                <div class="hero-buttons">
-                    <button class="btn-primary">
-                        <i class="fas fa-rocket"></i> Начать сейчас
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" data-count="150">0</span>
+                        <span class="stat-label">Завершенных проектов</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="99">0</span>
+                        <span class="stat-label">% Удовлетворенности</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="24">0</span>
+                        <span class="stat-label">/7 Поддержка</span>
+                    </div>
+                </div>
+                
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-lg btn-hover-glow" id="exploreBtn">
+                        <i class="fas fa-compass"></i> Исследовать возможности
                     </button>
-                    <button class="btn-secondary">
+                    <button class="btn btn-outline btn-lg" id="watchDemoBtn">
                         <i class="fas fa-play-circle"></i> Смотреть демо
                     </button>
                 </div>
             </div>
+            
             <div class="hero-visual">
-                <div class="floating-card">
-                    <div class="card-header">
-                        <div class="card-icon">🤖</div>
-                        <h3>AI Аналитика</h3>
-                    </div>
-                    <p>Реальный мониторинг данных</p>
-                    <div class="card-stats">
-                        <div class="stat">
-                            <span class="stat-value">+42%</span>
-                            <span class="stat-label">Эффективность</span>
+                <div class="floating-cards">
+                    <div class="card-3d" data-tilt>
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3>AI Аналитика</h3>
                         </div>
-                        <div class="stat">
-                            <span class="stat-value">99.9%</span>
-                            <span class="stat-label">Точность</span>
+                        <div class="card-progress">
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 85%"></div>
+                            </div>
+                            <span>Точность: 85%</span>
+                        </div>
+                        <div class="card-stats">
+                            <div class="mini-stat">
+                                <span class="value">+42%</span>
+                                <span class="label">Эффективность</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="value">0.1s</span>
+                                <span class="label">Скорость анализа</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-3d" data-tilt data-tilt-reverse="true">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-link"></i>
+                            </div>
+                            <h3>Блокчейн</h3>
+                        </div>
+                        <div class="card-progress">
+                            <div class="progress">
+                                <div class="progress-bar" style="width: 100%"></div>
+                            </div>
+                            <span>Безопасность: 100%</span>
+                        </div>
+                        <div class="card-stats">
+                            <div class="mini-stat">
+                                <span class="value">10k+</span>
+                                <span class="label">Транзакций/сек</span>
+                            </div>
+                            <div class="mini-stat">
+                                <span class="value">0</span>
+                                <span class="label">Взломов</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="floating-card">
-                    <div class="card-header">
-                        <div class="card-icon">🔗</div>
-                        <h3>Блокчейн</h3>
-                    </div>
-                    <p>Безопасные транзакции</p>
-                    <div class="card-progress">
-                        <div class="progress-bar">
-                            <div class="progress-fill"></div>
+                
+                <div class="tech-sphere">
+                    <div class="sphere">
+                        <div class="orbit">
+                            <div class="node"><i class="fab fa-react"></i></div>
+                            <div class="node"><i class="fab fa-ethereum"></i></div>
+                            <div class="node"><i class="fas fa-robot"></i></div>
+                            <div class="node"><i class="fas fa-cloud"></i></div>
+                            <div class="node"><i class="fas fa-database"></i></div>
+                            <div class="node"><i class="fab fa-python"></i></i></div>
                         </div>
-                        <span>Защита данных: 100%</span>
                     </div>
                 </div>
             </div>
@@ -99,96 +232,283 @@
     <section class="services" id="services">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Наши <span class="gradient-text">услуги</span></h2>
-                <p class="section-subtitle">Предоставляем комплексные решения для цифровой трансформации</p>
+                <h2 class="section-title">
+                    <span class="section-title-bg">Услуги</span>
+                    <span class="text-gradient">Что мы предлагаем</span>
+                </h2>
+                <p class="section-subtitle">Комплексные решения для цифровой трансформации вашего бизнеса</p>
             </div>
+            
             <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-brain"></i>
+                <div class="service-card" data-service="ai">
+                    <div class="service-card-inner">
+                        <div class="service-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="service-title">AI & Машинное обучение</h3>
+                        <p class="service-description">
+                            Разработка и внедрение систем искусственного интеллекта для автоматизации процессов, анализа данных и принятия решений.
+                        </p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Predictive Analytics</li>
+                            <li><i class="fas fa-check"></i> NLP Обработка</li>
+                            <li><i class="fas fa-check"></i> Computer Vision</li>
+                        </ul>
+                        <button class="btn-service-more" data-service="ai">
+                            Узнать подробнее <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <h3>Искусственный интеллект</h3>
-                    <p>Разработка AI-моделей для автоматизации бизнес-процессов и аналитики данных.</p>
-                    <a href="#" class="service-link">Подробнее <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-cube"></i>
+                
+                <div class="service-card" data-service="web3">
+                    <div class="service-card-inner">
+                        <div class="service-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3 class="service-title">Web3 & Блокчейн</h3>
+                        <p class="service-description">
+                            Создание децентрализованных приложений, смарт-контрактов и NFT решений для нового интернета.
+                        </p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> dApps Разработка</li>
+                            <li><i class="fas fa-check"></i> DeFi Платформы</li>
+                            <li><i class="fas fa-check"></i> NFT Маркетплейсы</li>
+                        </ul>
+                        <button class="btn-service-more" data-service="web3">
+                            Узнать подробнее <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <h3>Веб3 Разработка</h3>
-                    <p>Создание децентрализованных приложений (dApps) и смарт-контрактов.</p>
-                    <a href="#" class="service-link">Подробнее <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-vr-cardboard"></i>
+                
+                <div class="service-card" data-service="vr">
+                    <div class="service-card-inner">
+                        <div class="service-icon">
+                            <i class="fas fa-vr-cardboard"></i>
+                        </div>
+                        <h3 class="service-title">VR/AR Разработка</h3>
+                        <p class="service-description">
+                            Создание иммерсивных решений в виртуальной и дополненной реальности для бизнеса, обучения и развлечений.
+                        </p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Виртуальные туры</li>
+                            <li><i class="fas fa-check"></i> AR Приложения</li>
+                            <li><i class="fas fa-check"></i> Метавселенные</li>
+                        </ul>
+                        <button class="btn-service-more" data-service="vr">
+                            Узнать подробнее <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <h3>VR/AR Иммерсивный опыт</h3>
-                    <p>Разработка виртуальной и дополненной реальности для бизнеса и развлечений.</p>
-                    <a href="#" class="service-link">Подробнее <i class="fas fa-arrow-right"></i></a>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-chart-network"></i>
+                
+                <div class="service-card" data-service="cyber">
+                    <div class="service-card-inner">
+                        <div class="service-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="service-title">Кибербезопасность</h3>
+                        <p class="service-description">
+                            Полный цикл защиты данных и инфраструктуры от современных киберугроз и атак.
+                        </p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check"></i> Аудит безопасности</li>
+                            <li><i class="fas fa-check"></i> Защита от DDoS</li>
+                            <li><i class="fas fa-check"></i> Шифрование данных</li>
+                        </ul>
+                        <button class="btn-service-more" data-service="cyber">
+                            Узнать подробнее <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
-                    <h3>Кибербезопасность</h3>
-                    <p>Защита данных и инфраструктуры с использованием передовых технологий.</p>
-                    <a href="#" class="service-link">Подробнее <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Technologies Section -->
+    <!-- Projects Showcase -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-title-bg">Проекты</span>
+                    <span class="text-gradient">Наши работы</span>
+                </h2>
+                <p class="section-subtitle">Реализованные решения для клиентов по всему миру</p>
+            </div>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-tags">
+                            <span class="tag">AI</span>
+                            <span class="tag">Аналитика</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Neural Trade Platform</h3>
+                        <p>AI-платформа для прогнозирования рынков с точностью 94%</p>
+                        <div class="project-stats">
+                            <span><i class="fas fa-chart-line"></i> +300% ROI</span>
+                            <span><i class="fas fa-clock"></i> 6 месяцев</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-tags">
+                            <span class="tag">Blockchain</span>
+                            <span class="tag">DeFi</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>SecureChain Finance</h3>
+                        <p>Децентрализованная финансовая платформа с TVL $50M+</p>
+                        <div class="project-stats">
+                            <span><i class="fas fa-users"></i> 25k+ пользователей</span>
+                            <span><i class="fas fa-shield-alt"></i> 0 инцидентов</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-tags">
+                            <span class="tag">VR</span>
+                            <span class="tag">Образование</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>EduVerse Academy</h3>
+                        <p>Виртуальная образовательная платформа для университетов</p>
+                        <div class="project-stats">
+                            <span><i class="fas fa-graduation-cap"></i> 10k+ студентов</span>
+                            <span><i class="fas fa-star"></i> 4.9/5 оценка</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies -->
     <section class="technologies" id="technologies">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Технологии <span class="gradient-text">будущего</span></h2>
-                <p class="section-subtitle">Используем самые передовые инструменты и фреймворки</p>
+                <h2 class="section-title">
+                    <span class="section-title-bg">Технологии</span>
+                    <span class="text-gradient">Наш стек</span>
+                </h2>
+                <p class="section-subtitle">Используем передовые технологии для создания инновационных решений</p>
             </div>
-            <div class="tech-grid">
-                <div class="tech-item">
-                    <div class="tech-logo">⚛️</div>
-                    <span>React/Next.js</span>
+            
+            <div class="tech-showcase">
+                <div class="tech-category">
+                    <h3><i class="fas fa-code"></i> Frontend</h3>
+                    <div class="tech-items">
+                        <div class="tech-item" data-tooltip="React">
+                            <i class="fab fa-react"></i>
+                        </div>
+                        <div class="tech-item" data-tooltip="Vue.js">
+                            <i class="fab fa-vuejs"></i>
+                        </div>
+                        <div class="tech-item" data-tooltip="TypeScript">
+                            <i class="fas fa-t"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="tech-item">
-                    <div class="tech-logo">🔷</div>
-                    <span>TypeScript</span>
+                
+                <div class="tech-category">
+                    <h3><i class="fas fa-server"></i> Backend</h3>
+                    <div class="tech-items">
+                        <div class="tech-item" data-tooltip="Node.js">
+                            <i class="fab fa-node-js"></i>
+                        </div>
+                        <div class="tech-item" data-tooltip="Python">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <div class="tech-item" data-tooltip="Go">
+                            <i class="fab fa-golang"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="tech-item">
-                    <div class="tech-logo">🟢</div>
-                    <span>Node.js</span>
+                
+                <div class="tech-category">
+                    <h3><i class="fas fa-database"></i> Базы данных</h3>
+                    <div class="tech-items">
+                        <div class="tech-item" data-tooltip="PostgreSQL">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="tech-item" data-tooltip="MongoDB">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="tech-item" data-tooltip="Redis">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="tech-item">
-                    <div class="tech-logo">⛓️</div>
-                    <span>Solidity</span>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-logo">🤖</div>
-                    <span>TensorFlow</span>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-logo">☁️</div>
-                    <span>AWS/Azure</span>
+                
+                <div class="tech-category">
+                    <h3><i class="fas fa-cloud"></i> Инфраструктура</h3>
+                    <div class="tech-items">
+                        <div class="tech-item" data-tooltip="AWS">
+                            <i class="fab fa-aws"></i>
+                        </div>
+                        <div class="tech-item" data-tooltip="Docker">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <div class="tech-item" data-tooltip="Kubernetes">
+                            <i class="fas fa-ship"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section">
+    <section class="cta" id="contact">
         <div class="container">
             <div class="cta-content">
-                <h2>Готовы к цифровой трансформации?</h2>
-                <p>Свяжитесь с нами для бесплатной консультации и старта вашего проекта</p>
-                <form class="cta-form" id="contact">
-                    <div class="form-group">
-                        <input type="email" placeholder="Ваш email" required>
-                        <button type="submit" class="btn-primary">
-                            <i class="fas fa-paper-plane"></i> Отправить
-                        </button>
+                <h2 class="cta-title">Готовы начать свой проект?</h2>
+                <p class="cta-subtitle">Оставьте заявку и получите бесплатную консультацию от наших экспертов</p>
+                
+                <form class="contact-form" id="contactForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" id="name" placeholder="Ваше имя" required>
+                            <label for="name">Имя</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" placeholder="Ваш email" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" placeholder="Номер телефона">
+                            <label for="phone">Телефон</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="service" required>
+                                <option value="" disabled selected>Выберите услугу</option>
+                                <option value="ai">AI Разработка</option>
+                                <option value="web3">Web3 & Блокчейн</option>
+                                <option value="vr">VR/AR Разработка</option>
+                                <option value="cyber">Кибербезопасность</option>
+                            </select>
+                            <label for="service">Услуга</label>
+                        </div>
+                        <div class="form-group full-width">
+                            <textarea id="message" placeholder="Опишите ваш проект..." rows="4"></textarea>
+                            <label for="message">Сообщение</label>
+                        </div>
                     </div>
-                    <p class="form-note">Мы свяжемся с вами в течение 24 часов</p>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-lg btn-hover-glow">
+                            <i class="fas fa-paper-plane"></i> Отправить заявку
+                        </button>
+                        <p class="form-note">
+                            <i class="fas fa-lock"></i> Ваши данные защищены и не будут переданы третьим лицам
+                        </p>
+                    </div>
                 </form>
             </div>
         </div>
@@ -199,38 +519,89 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <div class="logo">
+                    <div class="footer-logo">
                         <span class="logo-icon">🌀</span>
-                        <span class="logo-text">Vortex<span class="logo-accent">Tech</span></span>
+                        <span class="logo-text">Vortex<span class="logo-accent">Space</span></span>
                     </div>
-                    <p>Создаем будущее цифровых технологий сегодня</p>
+                    <p class="footer-description">
+                        Создаем инновационные цифровые решения для бизнеса будущего
+                    </p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-telegram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link" aria-label="Telegram">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
                     </div>
                 </div>
+                
+                <div class="footer-section">
+                    <h4>Навигация</h4>
+                    <ul class="footer-links">
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#services">Услуги</a></li>
+                        <li><a href="#projects">Проекты</a></li>
+                        <li><a href="#technologies">Технологии</a></li>
+                        <li><a href="#about">О нас</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Услуги</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" data-service="ai">AI Разработка</a></li>
+                        <li><a href="#" data-service="web3">Web3 & Блокчейн</a></li>
+                        <li><a href="#" data-service="vr">VR/AR Разработка</a></li>
+                        <li><a href="#" data-service="cyber">Кибербезопасность</a></li>
+                    </ul>
+                </div>
+                
                 <div class="footer-section">
                     <h4>Контакты</h4>
-                    <p><i class="fas fa-envelope"></i> contact@vortextech.dev</p>
-                    <p><i class="fas fa-phone"></i> +7 (XXX) XXX-XX-XX</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Быстрые ссылки</h4>
-                    <a href="#home">Главная</a>
-                    <a href="#services">Услуги</a>
-                    <a href="#technologies">Технологии</a>
-                    <a href="#contact">Контакты</a>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> contact@vortexspace.dev</p>
+                        <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Москва, ул. Цифровая, 42</p>
+                    </div>
                 </div>
             </div>
+            
             <div class="footer-bottom">
-                <p>© 2024 VortexTech. Все права защищены. | <a href="#">Политика конфиденциальности</a></p>
+                <p>&copy; 2024 VortexSpace. Все права защищены.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Политика конфиденциальности</a>
+                    <a href="#">Условия использования</a>
+                    <a href="#">Карта сайта</a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script src="script.js"></script>
+    <!-- Back to Top -->
+    <button class="back-to-top" id="backToTop" aria-label="Наверх">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/animations.js"></script>
 </body>
 </html>
