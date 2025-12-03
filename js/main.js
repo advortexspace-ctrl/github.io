@@ -5,10 +5,19 @@ document.addEventListener('DOMContentLoaded', function() {
     initLoadingScreen();
     initMobileMenu();
     initNavigation();
-    initCounters();
-    initScrollAnimations();
-    initBackToTop();
+    initScrollThrottle();
+    initAnimationPerformance();
+    initVisibilityHandler();
+    initAnimationFrameOptimization();
+    initTouchOptimizations();
     initContactButtons();
+    
+    // Initialize counters and scroll animations after loading
+    setTimeout(() => {
+        initCounters();
+        initScrollAnimations();
+        initBackToTop();
+    }, 500);
     
     // Add loaded class to body for animations
     setTimeout(() => {
@@ -20,24 +29,44 @@ document.addEventListener('DOMContentLoaded', function() {
 function initLoadingScreen() {
     const loadingScreen = document.getElementById('loadingScreen');
     
-    // Hide loading screen after page loads
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            loadingScreen.classList.add('hidden');
-            
-            // Remove from DOM after animation
-            setTimeout(() => {
-                if (loadingScreen.parentNode) {
-                    loadingScreen.style.display = 'none';
-                }
-            }, 500);
-        }, 500);
-    });
-    
-    // Fallback in case load event doesn't fire
-    setTimeout(() => {
+    // Hide loading screen when everything is loaded
+    function hideLoadingScreen() {
         loadingScreen.classList.add('hidden');
-    }, 2000);
+        
+        // Remove from DOM after animation
+        setTimeout(() => {
+            if (loadingScreen.parentNode) {
+                loadingScreen.style.display = 'none';
+            }
+            
+            // Start entrance animations
+            startEntranceAnimations();
+        }, 500);
+    }
+    
+    // Start entrance animations for elements
+    function startEntranceAnimations() {
+        // Add animated class to body
+        document.body.classList.add('page-loaded');
+        
+        // Initialize scroll animations
+        initScrollAnimations();
+        
+        // Start counter animations
+        initCounters();
+    }
+    
+    // Wait for page to load
+    if (document.readyState === 'complete') {
+        setTimeout(hideLoadingScreen, 800);
+    } else {
+        window.addEventListener('load', () => {
+            setTimeout(hideLoadingScreen, 800);
+        });
+    }
+    
+    // Fallback timeout
+    setTimeout(hideLoadingScreen, 2000);
 }
 
 // ===== MOBILE MENU =====
@@ -143,17 +172,6 @@ function initNavigation() {
         });
     }
     
-    // Throttle scroll event for performance
-    let scrollTimeout;
-    window.addEventListener('scroll', function() {
-        if (!scrollTimeout) {
-            scrollTimeout = setTimeout(function() {
-                updateActiveNav();
-                scrollTimeout = null;
-            }, 100);
-        }
-    });
-    
     // Initial update
     updateActiveNav();
 }
@@ -191,10 +209,10 @@ function initCounters() {
     counters.forEach(counter => observer.observe(counter));
 }
 
-// ===== SCROLL ANIMATIONS =====
+// ===== SCROLL ANIMATIONS (обновленная) =====
 function initScrollAnimations() {
     const animateElements = document.querySelectorAll(
-        '.service-card, .tech-item, .contact-card, .stat-card'
+        '.fade-in-up, .fade-in-left, .fade-in-right, .scale-in'
     );
     
     if (!animateElements.length) return;
@@ -202,7 +220,17 @@ function initScrollAnimations() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('animate-on-scroll', 'animated');
+                const element = entry.target;
+                
+                // Add delay based on element type
+                const delay = element.classList.contains('service-card') ? 
+                    Array.from(element.parentNode.children).indexOf(element) * 0.1 : 0;
+                
+                setTimeout(() => {
+                    element.classList.add('animated');
+                }, delay * 1000);
+                
+                observer.unobserve(element);
             }
         });
     }, {
@@ -233,17 +261,6 @@ function initBackToTop() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
     
-    // Throttle scroll event
-    let scrollTimeout;
-    window.addEventListener('scroll', function() {
-        if (!scrollTimeout) {
-            scrollTimeout = setTimeout(function() {
-                toggleBackToTop();
-                scrollTimeout = null;
-            }, 100);
-        }
-    });
-    
     // Initial check
     toggleBackToTop();
 }
@@ -263,6 +280,161 @@ function initContactButtons() {
             console.log(`Contact button clicked: ${contactType}`);
         });
     });
+}
+
+// ===== ANIMATION PERFORMANCE OPTIMIZATIONS =====
+
+function initAnimationPerformance() {
+    // Detect device capabilities
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isLowPower = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    
+    // Reduce animation intensity on mobile/low-power devices
+    if (isMobile || isLowPower) {
+        const animatedElements = document.querySelectorAll(
+            '.gradient-circle, .gradient-circle-2, .pulse-dots .dot'
+        );
+        
+        animatedElements.forEach(el => {
+            el.style.animationDuration = '40s';
+            el.style.opacity = '0.6';
+        });
+        
+        // Disable floating cards on touch devices
+        document.querySelectorAll('.floating-card').forEach(card => {
+            card.style.animation = 'none';
+        });
+    }
+    
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    
+    if (prefersReducedMotion.matches) {
+        disableAnimations();
+    }
+    
+    // Listen for changes in preference
+    prefersReducedMotion.addEventListener('change', (e) => {
+        if (e.matches) {
+            disableAnimations();
+        }
+    });
+}
+
+function disableAnimations() {
+    // Disable all CSS animations and transitions
+    const style = document.createElement('style');
+    style.textContent = `
+        *, *::before, *::after {
+            animation: none !important;
+            transition: none !important;
+        }
+        
+        .gradient-circle,
+        .gradient-circle-2,
+        .pulse-dots {
+            display: none !important;
+        }
+        
+        .service-card,
+        .contact-card,
+        .tech-item {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ===== PAUSE ANIMATIONS WHEN TAB IS INACTIVE =====
+function initVisibilityHandler() {
+    let isHidden = false;
+    
+    function handleVisibilityChange() {
+        if (document.hidden) {
+            // Tab is inactive - pause animations
+            document.body.classList.add('paused-animations');
+            isHidden = true;
+        } else if (isHidden) {
+            // Tab is active again - resume animations
+            document.body.classList.remove('paused-animations');
+            isHidden = false;
+        }
+    }
+    
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Add CSS for paused animations
+    const style = document.createElement('style');
+    style.textContent = `
+        .paused-animations .gradient-circle,
+        .paused-animations .gradient-circle-2,
+        .paused-animations .pulse-dots .dot,
+        .paused-animations .logo-icon,
+        .paused-animations .floating-card {
+            animation-play-state: paused !important;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// ===== TOUCH DEVICE OPTIMIZATIONS =====
+function initTouchOptimizations() {
+    // Prevent context menu on long press for buttons
+    const buttons = document.querySelectorAll('.btn, .nav-link');
+    buttons.forEach(btn => {
+        btn.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
+        });
+    });
+    
+    // Add active states for touch feedback
+    document.addEventListener('touchstart', function() {}, {passive: true});
+    
+    // Improve touch scrolling performance
+    document.documentElement.style.touchAction = 'manipulation';
+}
+
+// ===== ANIMATION FRAME OPTIMIZATION =====
+function initAnimationFrameOptimization() {
+    // Use requestAnimationFrame for smooth animations
+    let lastTime = 0;
+    
+    function animate(time) {
+        const delta = time - lastTime;
+        
+        if (delta > 16) { // ~60fps
+            // Update animations here if needed
+            lastTime = time;
+        }
+        
+        requestAnimationFrame(animate);
+    }
+    
+    // Start animation loop only on desktop
+    if (window.innerWidth > 768) {
+        requestAnimationFrame(animate);
+    }
+}
+
+// ===== THROTTLE SCROLL EVENT FOR PERFORMANCE =====
+function initScrollThrottle() {
+    let ticking = false;
+    
+    function onScroll() {
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                // Update functions that run on scroll
+                if (typeof updateActiveNav === 'function') updateActiveNav();
+                if (typeof toggleBackToTop === 'function') toggleBackToTop();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', onScroll, { passive: true });
 }
 
 // ===== PERFORMANCE OPTIMIZATIONS =====
@@ -367,256 +539,3 @@ window.addEventListener('load', function() {
     // Initialize any remaining features
     initServiceCardsHover();
 });
-// Обновите функцию initLoadingScreen в существующем main.js:
-
-// ===== LOADING SCREEN =====
-function initLoadingScreen() {
-    const loadingScreen = document.getElementById('loadingScreen');
-    
-    // Hide loading screen when everything is loaded
-    function hideLoadingScreen() {
-        loadingScreen.classList.add('hidden');
-        
-        // Remove from DOM after animation
-        setTimeout(() => {
-            if (loadingScreen.parentNode) {
-                loadingScreen.style.display = 'none';
-            }
-            
-            // Start entrance animations
-            startEntranceAnimations();
-        }, 500);
-    }
-    
-    // Start entrance animations for elements
-    function startEntranceAnimations() {
-        // Add animated class to body
-        document.body.classList.add('page-loaded');
-        
-        // Initialize scroll animations
-        initScrollAnimations();
-        
-        // Start counter animations
-        initCounters();
-    }
-    
-    // Wait for page to load
-    if (document.readyState === 'complete') {
-        setTimeout(hideLoadingScreen, 800);
-    } else {
-        window.addEventListener('load', () => {
-            setTimeout(hideLoadingScreen, 800);
-        });
-    }
-    
-    // Fallback timeout
-    setTimeout(hideLoadingScreen, 2000);
-}
-
-// ===== SCROLL ANIMATIONS (обновленная) =====
-function initScrollAnimations() {
-    const animateElements = document.querySelectorAll(
-        '.fade-in-up, .fade-in-left, .fade-in-right, .scale-in'
-    );
-    
-    if (!animateElements.length) return;
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const element = entry.target;
-                
-                // Add delay based on element type
-                const delay = element.classList.contains('service-card') ? 
-                    Array.from(element.parentNode.children).indexOf(element) * 0.1 : 0;
-                
-                setTimeout(() => {
-                    element.classList.add('animated');
-                }, delay * 1000);
-                
-                observer.unobserve(element);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-    
-    animateElements.forEach(el => {
-        observer.observe(el);
-    });
-}
-
-// ===== PERFORMANCE OPTIMIZATIONS FOR ANIMATIONS =====
-function initAnimationPerformance() {
-    // Detect device capabilities
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    const isLowPower = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    
-    // Reduce animation intensity on mobile/low-power devices
-    if (isMobile || isLowPower) {
-        const animatedElements = document.querySelectorAll(
-            '.gradient-circle, .gradient-circle-2, .pulse-dots .dot'
-        );
-        
-        animatedElements.forEach(el => {
-            el.style.animationDuration = '40s';
-            el.style.opacity = '0.6';
-        });
-        
-        // Disable floating cards on touch devices
-        document.querySelectorAll('.floating-card').forEach(card => {
-            card.style.animation = 'none';
-        });
-    }
-    
-    // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    
-    if (prefersReducedMotion.matches) {
-        disableAnimations();
-    }
-    
-    // Listen for changes in preference
-    prefersReducedMotion.addEventListener('change', (e) => {
-        if (e.matches) {
-            disableAnimations();
-        }
-    });
-}
-
-function disableAnimations() {
-    // Disable all CSS animations and transitions
-    const style = document.createElement('style');
-    style.textContent = `
-        *, *::before, *::after {
-            animation: none !important;
-            transition: none !important;
-        }
-        
-        .gradient-circle,
-        .gradient-circle-2,
-        .pulse-dots {
-            display: none !important;
-        }
-        
-        .service-card,
-        .contact-card,
-        .tech-item {
-            opacity: 1 !important;
-            transform: none !important;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-// ===== THROTTLE SCROLL EVENT FOR PERFORMANCE =====
-function initScrollThrottle() {
-    let ticking = false;
-    
-    function onScroll() {
-        if (!ticking) {
-            window.requestAnimationFrame(function() {
-                updateActiveNav();
-                toggleBackToTop();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }
-    
-    window.addEventListener('scroll', onScroll, { passive: true });
-}
-
-// ===== PAUSE ANIMATIONS WHEN TAB IS INACTIVE =====
-function initVisibilityHandler() {
-    let isHidden = false;
-    
-    function handleVisibilityChange() {
-        if (document.hidden) {
-            // Tab is inactive - pause animations
-            document.body.classList.add('paused-animations');
-            isHidden = true;
-        } else if (isHidden) {
-            // Tab is active again - resume animations
-            document.body.classList.remove('paused-animations');
-            isHidden = false;
-        }
-    }
-    
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    
-    // Add CSS for paused animations
-    const style = document.createElement('style');
-    style.textContent = `
-        .paused-animations .gradient-circle,
-        .paused-animations .gradient-circle-2,
-        .paused-animations .pulse-dots .dot,
-        .paused-animations .logo-icon,
-        .paused-animations .floating-card {
-            animation-play-state: paused !important;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-// ===== ANIMATION FRAME OPTIMIZATION =====
-function initAnimationFrameOptimization() {
-    // Use requestAnimationFrame for smooth animations
-    let lastTime = 0;
-    
-    function animate(time) {
-        const delta = time - lastTime;
-        
-        if (delta > 16) { // ~60fps
-            // Update animations here if needed
-            lastTime = time;
-        }
-        
-        requestAnimationFrame(animate);
-    }
-    
-    // Start animation loop only on desktop
-    if (window.innerWidth > 768) {
-        requestAnimationFrame(animate);
-    }
-}
-
-// ===== UPDATE INIT FUNCTION =====
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all features
-    initLoadingScreen();
-    initMobileMenu();
-    initNavigation();
-    initScrollThrottle();
-    initAnimationPerformance();
-    initVisibilityHandler();
-    initAnimationFrameOptimization();
-    initContactButtons();
-    
-    // Add loaded class to body for animations
-    setTimeout(() => {
-        document.body.classList.add('loaded');
-    }, 100);
-});
-
-// ===== TOUCH DEVICE OPTIMIZATIONS =====
-function initTouchOptimizations() {
-    // Prevent context menu on long press for buttons
-    const buttons = document.querySelectorAll('.btn, .nav-link');
-    buttons.forEach(btn => {
-        btn.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            return false;
-        });
-    });
-    
-    // Add active states for touch feedback
-    document.addEventListener('touchstart', function() {}, {passive: true});
-    
-    // Improve touch scrolling performance
-    document.documentElement.style.touchAction = 'manipulation';
-}
-
-// Add to initialization
-document.addEventListener('DOMContentLoaded', initTouchOptimizations);
